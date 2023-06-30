@@ -29,11 +29,14 @@ select_vector = c('date', 'site','region','int_bot','topo', 'depth', 'code', 'sp
 # filter the water sites to only include sites that the sediment sites have
 water_data_filtered <- water_data %>% 
   filter(site %in% sed_sites) %>% 
-  select(all_of(select_vector))
+  select(all_of(select_vector)) %>% 
+  mutate(date = mdy(date))
 
-  
+select_vector = c('date', 'site', 'region', 'topo', 'sed_chl'= 'unc_est_chl')
+
 sed_data_filtered <-sed_data %>% 
-  mutate(date = as.Date(date))
+  mutate(date = as.Date(date)) %>% 
+  select(all_of(select_vector))
   
 
-head(water_data_filtered)
+# join the sediment and water data
